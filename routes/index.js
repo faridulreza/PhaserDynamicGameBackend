@@ -18,7 +18,7 @@ router.post("/get_environment", async function (req, res, next) {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-3.5-turbo",
       messages: [
         {
           role: "user",
@@ -48,10 +48,11 @@ router.post("/get_image_url", async function (req, res, next) {
       model: "dall-e-3",
       prompt: description,
       n: 1,
-      size: "1024x1024",
+      size:"1024x1024",
     });
     image_url = response.data[0].url;
 
+    
     const resized_image_url = await resizeImage(image_url, dimension, removeBg);
 
     res.json({ image_url: resized_image_url });

@@ -10,11 +10,13 @@ const resizeImage = async (url, dimension, removeBg) => {
   //   buffer = Buffer.from(await blob.arrayBuffer());
   // }
   // else{
+    console.log("Downloading image: ", url)
     const res = await fetch(url);
-    buffer = await res.buffer();
+    buffer = Buffer.from(await res.arrayBuffer())
   // }
 
-  const sharpImage = sharp();
+
+  const sharpImage = sharp(buffer);
 
   const resized = await sharpImage
     .resize({
@@ -24,6 +26,8 @@ const resizeImage = async (url, dimension, removeBg) => {
     })
     .jpeg()
     .toBuffer();
+
+  console.log("Resized image: ")
 
   //save the image to the file system
   const filename = uuid() + ".jpg";
